@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Timed quiz app with local leaderboard and async weather dashboard" />
+  <title>QuizCast — Timed Quiz + Weather</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">QUIZCAST</p>
+      <h1>Timed Quiz + Weather Dashboard</h1>
+      <p class="subtle">Answer fast, climb the local leaderboard, and check live weather by city.</p>
+    </div>
+    <button id="themeToggle" class="secondary-button" type="button" aria-label="Toggle theme">🌙 Theme</button>
+  </header>
+
+  <main class="dashboard">
+    <section class="panel quiz-panel" aria-labelledby="quizTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">CHALLENGE</p>
+          <h2 id="quizTitle">Timed Quiz</h2>
+        </div>
+        <div class="score-pill">
+          <span>Score</span>
+          <strong id="score">0</strong>
+        </div>
+      </div>
+
+      <div id="startScreen" class="quiz-state">
+        <div class="hero-stat"><strong>10</strong><span>questions</span></div>
+        <div class="hero-stat"><strong>15s</strong><span>per question</span></div>
+        <div class="hero-stat"><strong>+bonus</strong><span>for speed</span></div>
+        <label for="playerName">Player name</label>
+        <input id="playerName" type="text" maxlength="20" placeholder="Enter your name" autocomplete="nickname" />
+        <button id="startQuiz" class="primary-button" type="button">Start Quiz</button>
+        <p id="startError" class="error-text" role="alert"></p>
+      </div>
+
+      <div id="questionScreen" class="quiz-state hidden">
+        <div class="quiz-meta">
+          <span id="questionCounter">Question 1 / 10</span>
+          <span id="timerText">15s</span>
+        </div>
+        <div class="timer-track" aria-hidden="true"><div id="timerBar" class="timer-bar"></div></div>
+        <h3 id="questionText"></h3>
+        <div id="answers" class="answers"></div>
+        <p id="feedback" class="feedback" aria-live="polite"></p>
+      </div>
+
+      <div id="resultScreen" class="quiz-state hidden">
+        <p class="eyebrow">RESULT</p>
+        <h3 id="resultHeadline">Quiz complete</h3>
+        <p id="resultText" class="result-score"></p>
+        <div class="result-actions">
+          <button id="playAgain" class="primary-button" type="button">Play Again</button>
+          <button id="clearLeaderboard" class="secondary-button" type="button">Clear Leaderboard</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel leaderboard-panel" aria-labelledby="leaderboardTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">LOCAL STORAGE</p>
+          <h2 id="leaderboardTitle">Leaderboard</h2>
+        </div>
+        <span class="status-dot" title="Stored in this browser"></span>
+      </div>
+      <ol id="leaderboard" class="leaderboard-list"></ol>
+      <p id="emptyLeaderboard" class="subtle">No scores yet. Complete a quiz to create the first entry.</p>
+    </aside>
+
+    <section class="panel weather-panel" aria-labelledby="weatherTitle">
+      <div class="panel-heading weather-heading">
+        <div>
+          <p class="eyebrow">PUBLIC REST API</p>
+          <h2 id="weatherTitle">Async Weather</h2>
+        </div>
+        <span id="weatherStatus" class="api-status">Ready</span>
+      </div>
+
+      <form id="weatherForm" class="weather-search">
+        <label class="sr-only" for="cityInput">City</label>
+        <input id="cityInput" type="search" placeholder="Search city, e.g. Gwalior" value="Gwalior" required />
+        <button class="primary-button" type="submit">Get Weather</button>
+      </form>
+      <p id="weatherError" class="error-text" role="alert"></p>
+
+      <div id="weatherContent" class="weather-content hidden">
+        <div class="current-weather">
+          <div>
+            <p id="weatherLocation" class="weather-location"></p>
+            <p id="weatherDescription" class="subtle"></p>
+          </div>
+          <div class="temperature">
+            <strong id="temperature"></strong>
+            <span id="weatherEmoji" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="weather-metrics">
+          <article><span>Feels like</span><strong id="feelsLike"></strong></article>
+          <article><span>Humidity</span><strong id="humidity"></strong></article>
+          <article><span>Wind</span><strong id="windSpeed"></strong></article>
+          <article><span>Precipitation</span><strong id="precipitation"></strong></article>
+        </div>
+
+        <div>
+          <h3 class="forecast-title">5-day forecast</h3>
+          <div id="forecast" class="forecast-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><p>Leaderboard data stays in your browser. Weather uses Open-Meteo via asynchronous fetch requests.</p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
